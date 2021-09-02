@@ -1,7 +1,12 @@
 import "./App.css";
 import { useState } from "react";
 
-const keywords = ["function", "const", "let", "export"];
+const keywords = [
+  { word: "function", id: 1 },
+  { word: "const", id: 2 },
+  { word: "let", id: 3 },
+  { word: "export", id: 4 },
+];
 
 function App() {
   const [wordsToShow, setWordsToShow] = useState([]);
@@ -20,7 +25,7 @@ function App() {
   function handleChange(value) {
     setInputValue(value);
 
-    if (keywords.indexOf(value) !== -1) {
+    if (keywords.find((item) => item.word === value)) {
       setInputValue("");
       setWordsToShow([...wordsToShow, value]);
     } else {
@@ -29,7 +34,9 @@ function App() {
   }
 
   function handleGiveUp() {
-    setWordsToShow(keywords);
+    let words = [];
+    keywords.map((item) => words.push(item.word));
+    setWordsToShow(words);
   }
 
   return (
@@ -48,11 +55,11 @@ function App() {
         placeholder="palavra-chave"
         onChange={(e) => handleChange(e.target.value)}
       />
-      {keywords.map((item, index) => {
-        if (wordsToShow.indexOf(item) !== -1) {
-          return <p key={index}>{wordsToShow[wordsToShow.indexOf(item)]}</p>;
+      {keywords.map((item) => {
+        if (wordsToShow.indexOf(item.word) !== -1) {
+          return <p key={item.id}>{item.word}</p>;
         } else {
-          return <p key={index}>______</p>;
+          return <p key={item.id}>______</p>;
         }
       })}
     </div>
